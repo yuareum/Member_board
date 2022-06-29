@@ -21,6 +21,15 @@ public class BoardDTO {
     private LocalDateTime updatedTime;
     private MultipartFile boardFile;
     private String boardFileName;
+
+    public BoardDTO(Long id, String boardTitle, String boardWriter, int boardHits, LocalDateTime createdTime) {
+        this.id = id;
+        this.boardTitle = boardTitle;
+        this.boardWriter = boardWriter;
+        this.boardHits = boardHits;
+        this.createdTime = createdTime;
+    }
+
     public static BoardDTO toBoardDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(boardEntity.getId());

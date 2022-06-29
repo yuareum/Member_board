@@ -14,15 +14,15 @@
 <body>
     <div class="container">
         <h2>회원제 게시판</h2>
-        <div th:if="${session.loginMemberId}">
-            <div th:if="${session.loginMemberId.toString().equals('admin')}">
+        <div th:if="${session.loginEmail}">
+            <div th:if="${session.loginEmail.toString().equals('admin')}">
                 <button class="btn btn-outline-success" onclick="location.href='/member/admin'">관리자페이지</button>
             </div>
             <div>
                 <button class="btn btn-outline-danger" onclick="location.href='/member/logout'">로그아웃</button>
             </div>
         </div>
-        <div th:unless="${session.loginMemberId}">
+        <div th:unless="${session.loginEmail}">
             <button class="btn btn-primary" onclick="location.href='/member/save-form'">회원가입</button>
             <button class="btn btn-outline-dark" onclick="location.href='/member/login-form'">로그인</button>
         </div>

@@ -34,8 +34,8 @@ public class MemberController {
     }
 
     @PostMapping("/dup-check")
-    public @ResponseBody String dupCheck(@RequestParam("memberId") String memberId){
-        String checkResult = memberService.dupCheck(memberId);
+    public @ResponseBody String dupCheck(@RequestParam("memberEmail") String memberEmail){
+        String checkResult = memberService.dupCheck(memberEmail);
         return checkResult;
     }
 
@@ -49,8 +49,8 @@ public class MemberController {
         MemberDTO loginResult = memberService.login(memberDTO);
         if (loginResult != null) {
             session.setAttribute("loginId", loginResult.getId());
-            session.setAttribute("loginMemberId", loginResult.getMemberId());
-            return "redirect:/board/";
+            session.setAttribute("loginEmail", loginResult.getMemberEmail());
+            return "redirect:/board";
         }
         else {
             return "memberPages/login";
@@ -65,8 +65,8 @@ public class MemberController {
 
     @GetMapping("/admin")
     public String admin(Model model,HttpSession session){
-        MemberDTO memberDTO = memberService.findByMemberId((String) session.getAttribute("loginMemberId"));
-        if("admin".equals(memberDTO.getMemberId())) {
+        MemberDTO memberDTO = memberService.findByMemberEmail((String) session.getAttribute("loginEmail"));
+        if("admin".equals(memberDTO.getMemberEmail())) {
             model.addAttribute("member", memberDTO);
             return "/memberPages/admin";
         }

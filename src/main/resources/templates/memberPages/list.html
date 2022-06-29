@@ -19,9 +19,8 @@
             <thead>
             <tr>
                 <th scope="col">회원 번호</th>
-                <th scope="col">회원 아이디</th>
-                <th scope="col">회원 이름</th>
                 <th scope="col">회원 이메일</th>
+                <th scope="col">회원 이름</th>
                 <th scope="col">회원 전화번호</th>
                 <th scope="col">회원 상세 조회</th>
                 <th scope="col">회원 삭제</th>
@@ -30,9 +29,8 @@
             <tbody>
             <tr th:each="member: ${memberList}">
                 <td th:text="${member.id}"></td>
-                <td th:text="${member.memberId}"></td>
-                <td th:text="${member.memberName}"></td>
                 <td th:text="${member.memberEmail}"></td>
+                <td th:text="${member.memberName}"></td>
                 <td th:text="${member.memberMobile}"></td>
                 <td><a th:href="@{|/member/${member.id}|}">조회</a></td>
                 <td>

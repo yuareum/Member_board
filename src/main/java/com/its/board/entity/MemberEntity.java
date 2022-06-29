@@ -17,17 +17,14 @@ public class MemberEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(length = 20, unique = true, nullable = false)
-    private String memberId;
+    @Column(length = 30, nullable = false)
+    private String memberEmail;
 
     @Column(length = 20, nullable = false)
     private String memberPassword;
 
     @Column(length = 20, nullable = false)
     private String memberName;
-
-    @Column(length = 30, nullable = false)
-    private String memberEmail;
 
     @Column(length = 20, nullable = false)
     private String memberMobile;
@@ -44,7 +41,6 @@ public class MemberEntity {
 
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setMemberId(memberDTO.getMemberId());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());

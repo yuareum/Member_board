@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>게시글 작성</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <style>
+        .container{
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h2>게시글 작성</h2>
+        <form action="/board/save" method="post" enctype="multipart/form-data">
+            제목 <input type="text" class="form-control" name="boardTitle">
+            작성자 <input type="text" class="form-control" name="boardWriter"  th:value="${session.loginEmail}" readonly>
+            내용 <input type="text" class="form-control" name="boardContents">
+            파일 <input type="file" class="form-control" name="boardFile">
+            <input type="button" class="btn btn-outline-dark" onclick="location.href='/board'" value="취소">
+            <input type="submit" class="btn btn-outline-primary" value="글 작성">
+        </form>
+    </div>
 </body>
 </html>

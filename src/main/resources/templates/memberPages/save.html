@@ -21,33 +21,32 @@
 <div class="container">
     <h2>회원가입</h2>
     <form action="/member/save" method="post" enctype="multipart/form-data">
-        아이디<br> <input type="text" class="form-control" id="memberId" name="memberId" onblur="idDuplicate()" placeholder="아이디 입력">
-        <span id="memberId-check-result"></span><br>
+        이메일<br> <input type="text" class="form-control" id="memberEmail" name="memberEmail" onblur="EmailDuplicate()" placeholder="이메일 입력">
+        <span id="memberEmail-check-result"></span><br>
         비밀번호<br> <input type="password" id="memberPassword1" onblur="memberPassword1Check()" class="form-control" name="memberPassword" placeholder="비밀번호 입력">
         <span id="memberPassword1-check-result"></span><br>
         비밀번호 확인<br><input type="password" id="memberPassword2" class="form-control" onblur="memberPassword2Check()" placeholder="비밀번호 다시 입력">
         <span id="memberPassword2-check-result"></span><br>
         이름<br><input type="text" class="form-control" id="memberName" name="memberName" onblur="memberNameCheck()" placeholder="이름 입력">
         <span id="memberName-check-result"></span><br>
-        이메일<br><input type="text" class="form-control" id="memberEmail" name="memberEmail" placeholder="이메일 입력"><br>
         전화번호<br><input type="text" class="form-control" id="memberMobile" name="memberMobile" onblur="memberMobileCheck()" placeholder="전화번호 입력">
         <span id="memberMobile-check-result"></span><br>
-        프로필사진 <input type="file" name="memberProfile"><br>
+        프로필사진 <input type="file" class="form-control" name="memberProfile"><br>
         <input type="button" class="btn btn-outline-dark" onclick="location.href='/'" value="Home">
         <input type="submit" class="btn btn-outline-info" value="회원가입">
     </form>
 </div>
 </body>
 <script th:inline="javascript">
-    const idDuplicate = () => {
-        const memberId = document.getElementById("memberId").value;
-        const checkResult = document.getElementById("memberId-check-result");
+    const EmailDuplicate = () => {
+        const memberEmail = document.getElementById("memberEmail").value;
+        const checkResult = document.getElementById("memberEmail-check-result");
         const exp = /^[a-z\d-_]{5,20}$/;
-        if(memberId.match(exp)) {
+        if(memberEmail.match(exp)) {
             $.ajax({
                 type: "post",
                 url: "/member/dup-check",
-                data: {"memberId": memberId},
+                data: {"memberEmail": memberEmail},
                 dataType: "text",
                 success: function (result) {
                     if (result == "ok") {
@@ -64,7 +63,7 @@
             });
         }
         else{
-            if(memberId.length == 0){
+            if(memberEmail.length == 0){
                 checkResult.innerHTML="필수 입력입니다.";
                 checkResult.style.color="red";
             }

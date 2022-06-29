@@ -1,10 +1,17 @@
 package com.its.board.service;
 
+import com.its.board.common.PagingConst;
+import com.its.board.dto.BoardDTO;
 import com.its.board.dto.MemberDTO;
+import com.its.board.entity.BoardEntity;
 import com.its.board.entity.MemberEntity;
 import com.its.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.support.ManagedList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -88,5 +95,22 @@ public class MemberService {
         else{
             return null;
         }
+    }
+
+    public Page<MemberDTO> paging(Pageable pageable) {
+        int page = pageable.getPageNumber(); // 요청 페이지값 가져옴.
+        // 요청한 페이지가 1이면 페이지값을 0으로 하고 1이 아니면 요청 페이지에서 1을 뺀다.
+//        page = page - 1;
+        // 삼항연산자
+        page = (page == 1)? 0: (page-1);
+        Page<MemberEntity> memberEntities = memberRepository.findAll(PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
+        Page<MemberDTO> memberList = memberEntities.map(
+                member -> new MemberDTO(member.getId(),
+                        member.getMemberId(),
+                        member.getMemberName(),
+                        member.getMemberEmail(),
+                        member.getMemberMobile()
+                ));
+        return memberList;
     }
 }

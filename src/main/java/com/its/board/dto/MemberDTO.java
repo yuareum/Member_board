@@ -18,6 +18,14 @@ public class MemberDTO {
     private MultipartFile memberProfile;
     private String memberProfileName;
 
+    public MemberDTO(Long id, String memberId, String memberName, String memberEmail, String memberMobile) {
+        this.id = id;
+        this.memberId = memberId;
+        this.memberName = memberName;
+        this.memberEmail = memberEmail;
+        this.memberMobile = memberMobile;
+    }
+
     public static MemberDTO toMemberDTO(MemberEntity memberEntity) {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(memberEntity.getId());

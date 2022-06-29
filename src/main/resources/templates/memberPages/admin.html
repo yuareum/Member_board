@@ -5,6 +5,11 @@
     <title>관리자 페이지</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <style>
+        .container{
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -31,7 +36,7 @@
         <table>
             <tr>
                 <td>회원 관리</td>
-                <td><button class="btn btn-outline-dark" onclick="location.href='/member/'">회원목록</button></td>
+                <td><button class="btn btn-outline-dark" onclick="location.href='/member'">회원목록</button></td>
             </tr>
         </table>
     </div>

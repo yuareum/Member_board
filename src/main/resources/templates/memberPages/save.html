@@ -10,6 +10,11 @@
         .container{
             margin-top: 20px;
         }
+        .btn {
+            margin-top: 20px;
+            width: 180px;
+            height: 40px;
+        }
     </style>
 </head>
 <body>
@@ -28,6 +33,7 @@
         전화번호<br><input type="text" class="form-control" id="memberMobile" name="memberMobile" onblur="memberMobileCheck()" placeholder="전화번호 입력">
         <span id="memberMobile-check-result"></span><br>
         프로필사진 <input type="file" name="memberProfile"><br>
+        <input type="button" class="btn btn-outline-dark" onclick="location.href='/'" value="Home">
         <input type="submit" class="btn btn-outline-info" value="회원가입">
     </form>
 </div>

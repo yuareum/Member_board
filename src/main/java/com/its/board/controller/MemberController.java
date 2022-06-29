@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.lang.reflect.Member;
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -49,5 +51,37 @@ public class MemberController {
         else {
             return "memberPages/login";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @GetMapping("/admin")
+    public String admin(Model model,HttpSession session){
+        MemberDTO memberDTO = memberService.findByMemberId((String) session.getAttribute("loginMemberId"));
+        if("admin".equals(memberDTO.getMemberId())) {
+            model.addAttribute("member", memberDTO);
+            return "/memberPages/admin";
+        }
+        else{
+            return "redirect:/";
+        }
+    }
+
+    @GetMapping("/")
+    public String findAll(Model model){
+        List<MemberDTO> memberDTOList = memberService.findAll();
+        model.addAttribute("memberList", memberDTOList);
+        return "memberPages/list";
+    }
+
+    @GetMapping("/{id}")
+    public String findById( @PathVariable("id") Long id, Model model){
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("member", memberDTO);
+        return "memberPages/detail";
     }
 }

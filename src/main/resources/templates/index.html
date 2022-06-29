@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>회원제 게시판</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
@@ -11,7 +11,7 @@
         <h2>회원제 게시판</h2>
         <div th:if="${session.loginMemberId}">
             <div th:if="${session.loginMemberId.toString().equals('admin')}">
-                <button class="btn btn-outline-danger" onclick="location.href='/member/admin'">관리자페이지</button>
+                <button class="btn btn-outline-success" onclick="location.href='/member/admin'">관리자페이지</button>
             </div>
             <div>
                 <button class="btn btn-outline-danger" onclick="location.href='/member/logout'">로그아웃</button>

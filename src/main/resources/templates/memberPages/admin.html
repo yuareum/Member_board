@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>관리자 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
-
+    <div class="container">
+        <h2>관리자페이지</h2>
+        <table class="table">
+            <tr>
+                <th colspan="5">관리자 정보</th>
+            </tr>
+            <tr>
+                <td>아이디</td>
+                <td>비밀번호</td>
+                <td>이메일</td>
+                <td>이름</td>
+                <td>전화번호</td>
+            </tr>
+            <tr>
+                <td th:text="${member.memberId}"></td>
+                <td th:text="${member.memberPassword}"></td>
+                <td th:text="${member.memberEmail}"></td>
+                <td th:text="${member.memberName}"></td>
+                <td th:text="${member.memberMobile}"></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>회원 관리</td>
+                <td><button class="btn btn-outline-dark" onclick="location.href='/member/'">회원목록</button></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

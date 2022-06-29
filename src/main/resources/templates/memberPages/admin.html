@@ -33,10 +33,18 @@
                 <td th:text="${member.memberMobile}"></td>
             </tr>
         </table>
-        <table>
+        <table class="table">
+            <tr>
+                <th>페이지 정보</th>
+                <td>회원제 게시판</td>
+            </tr>
             <tr>
                 <td>회원 관리</td>
                 <td><button class="btn btn-outline-dark" onclick="location.href='/member'">회원목록</button></td>
+            </tr>
+            <tr>
+                <td>게시글 관리</td>
+                <td><button class="btn btn-outline-secondary" onclick="location.href='/board'">게시글 목록</button></td>
             </tr>
         </table>
     </div>

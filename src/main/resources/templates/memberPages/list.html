@@ -5,6 +5,7 @@
     <title>회원목록</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <style>
         .container{
             margin-top: 20px;
@@ -34,7 +35,9 @@
                 <td th:text="${member.memberEmail}"></td>
                 <td th:text="${member.memberMobile}"></td>
                 <td><a th:href="@{|/member/${member.id}|}">조회</a></td>
-                <td><button th:onclick="'location.href=\''+ @{|/member/delete/${member.id}} + '\''">삭제</button></td>
+                <td>
+                    <button class="btn btn-secondary" th:onclick="deleteById([[${member.id}]])">삭제</button>
+                </td>
                 <td></td>
             </tr>
             </tbody>
@@ -89,4 +92,19 @@
         </div>
     </div>
 </body>
+<script th:inline="javascript">
+    const deleteById = (id) => {
+        $.ajax({
+            type: "delete",
+            url: "/member/"+id,
+            success:function (){
+                location.href = "/member/";
+            },
+            error:function (){
+                alert("ajax 실패");
+            }
+        });
+
+    }
+</script>
 </html>

@@ -4,10 +4,9 @@ import com.its.board.dto.MemberDTO;
 import com.its.board.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/member")
@@ -20,9 +19,15 @@ public class MemberController {
         return "/memberPages/save";
     }
 
-    @PostMapping("save")
-    public String save(@ModelAttribute MemberDTO memberDTO){
+    @PostMapping("/save")
+    public String save(@ModelAttribute MemberDTO memberDTO) throws IOException {
         memberService.save(memberDTO);
         return "redirect:/board/";
+    }
+
+    @PostMapping("/dup-check")
+    public @ResponseBody String dupCheck(@RequestParam("memberId") String memberId){
+        String checkResult = memberService.dupCheck(memberId);
+        return checkResult;
     }
 }

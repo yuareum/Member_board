@@ -1,20 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>회원가입</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <style>
+        .container{
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <h2>회원가입</h2>
-    <form action="/member/save" method="post">
-        아이디<input type="text" class="form-control" id="memberId" name="memberId" placeholder="아이디 입력"><br>
-        비밀번호<input type="password" class="form-control" name="memberPassword" placeholder="비밀번호 입력"><br>
-        이름<input type="text" class="form-control" name="memberName" placeholder="이름 입력"><br>
-        이메일 <input type="text" class="form-control" name="memberEmail" placeholder="이메일 입력"><br>
-        프로필사진 <input type="file" name="memberProfile">
+    <form action="/member/save" method="post" enctype="multipart/form-data">
+        아이디<br> <input type="text" class="form-control" id="memberId" name="memberId" onblur="idDuplicate()" placeholder="아이디 입력">
+        <span id="memberId-check-result"></span><br>
+        비밀번호<br> <input type="password" id="memberPassword1" onblur="memberPassword1Check()" class="form-control" name="memberPassword" placeholder="비밀번호 입력">
+        <span id="memberPassword1-check-result"></span><br>
+        비밀번호 확인<br><input type="password" id="memberPassword2" class="form-control" onblur="memberPassword2Check()" placeholder="비밀번호 다시 입력">
+        <span id="memberPassword2-check-result"></span><br>
+        이름<br><input type="text" class="form-control" id="memberName" name="memberName" onblur="memberNameCheck()" placeholder="이름 입력">
+        <span id="memberName-check-result"></span><br>
+        이메일<br><input type="text" class="form-control" id="memberEmail" name="memberEmail" placeholder="이메일 입력"><br>
+        전화번호<br><input type="text" class="form-control" id="memberMobile" name="memberMobile" onblur="memberMobileCheck()" placeholder="전화번호 입력">
+        <span id="memberMobile-check-result"></span><br>
+        프로필사진 <input type="file" name="memberProfile"><br>
         <input type="submit" class="btn btn-outline-info" value="회원가입">
     </form>
 </div>
 </body>
+<script th:inline="javascript">
+    const idDuplicate = () => {
+        const memberId = document.getElementById("memberId").value;
+        const checkResult = document.getElementById("memberId-check-result");
+        const exp = /^[a-z\d-_]{5,20}$/;
+        if(memberId.match(exp)) {
+            $.ajax({
+                type: "post",
+                url: "/member/dup-check",
+                data: {"memberId": memberId},
+                dataType: "text",
+                success: function (result) {
+                    if (result == "ok") {
+                        checkResult.innerHTML = "사용 가능한 이메일 입니다.";
+                        checkResult.style.color = "green";
+                    } else {
+                        checkResult.innerHTML = "이미 사용중인 이메일 입니다.";
+                        checkResult.style.color = "red";
+                    }
+                },
+                error: function () {
+                    alert("ajax 실패");
+                }
+            });
+        }
+        else{
+            if(memberId.length == 0){
+                checkResult.innerHTML="필수 입력입니다.";
+                checkResult.style.color="red";
+            }
+            else {
+                checkResult.innerHTML="아이디는 5~20자의 영문 소문자, 숫자, 특수문자(-,_)만 사용 가능합니다.";
+                checkResult.style.color="red";
+            }
+        }
+    }
+    const memberPassword1Check = () => {
+        const memberPassword1 = document.getElementById("memberPassword1").value;
+        const checkResult = document.getElementById("memberPassword1-check-result");
+        const exp  = /[A-Za-z\d-_!#$.]{8,16}$/;
+        if(memberPassword1.match(exp)){
+            checkResult.innerHTML = "사용가능한 비밀번호입니다.";
+            checkResult.style.color = "green";
+        }
+        else{
+            if(memberPassword1.length == 0){
+                checkResult.innerHTML = "필수 입력입니다.";
+                checkResult.style.color = "red";
+            }
+            else{
+                checkResult.innerHTML = " 8~16자의 영문 대 소문자, 숫자, 특수문자(-,_,!,#,$,.)만 사용가능합니다.";
+                checkResult.style.color = "red";
+            }
+        }
+    }
+    const memberPassword2Check = () => {
+        const memberPassword1 = document.getElementById("memberPassword1").value;
+        const memberPassword2 = document.getElementById("memberPassword2").value;
+        const checkResult = document.getElementById("memberPassword2-check-result");
+        if(memberPassword1 == memberPassword2){
+            checkResult.innerHTML = "비밀번호가 일치합니다.";
+            checkResult.style.color = "green";
+        }
+        else{
+            if(memberPassword2.length == 0){
+                checkResult.innerHTML = "필수입력입니다.";
+                checkResult.style.color = "red";
+            }
+            else{
+                checkResult.innerHTML = "비밀번호가 일치하지 않습니다.";
+                checkResult.style.color = "red";
+            }
+        }
+    }
+    const memberNameCheck =() => {
+        const memberName = document.getElementById("memberName").value;
+        const checkResult = document.getElementById("memberName-check-result");
+        const exp = /^[a-z|A-Z|ㄱ-ㅎ|가-힣]{1,20}$/
+        if(memberName.match(exp)){
+            checkResult.innerHTML = "";
+        }
+        else{
+            if(memberName.length == 0){
+                checkResult.innerHTML = "필수 입력입니다.";
+                checkResult.style.color = "red";
+            }
+            else{
+                checkResult.innerHTML = "20자 이내 한글과 영문 대 소문자만 사용가능합니다."
+                checkResult.style.color = "red";
+            }
+        }
+    }
+    const memberMobileCheck = () => {
+        const memberMobile = document.getElementById("memberMobile").value;
+        const checkResult = document.getElementById("memberMobile-check-result");
+        const exp = /^\d{3}-\d{4}-\d{4}$/;
+        if(memberMobile.match(exp)){
+            checkResult.innerHTML = "사용가능한 전화번호입니다.";
+            checkResult.style.color = "green";
+        }
+        else{
+            if(memberMobile.length == 0){
+                checkResult.innerHTML = "필수 입력입니다.";
+                checkResult.style.color = "red";
+            }
+            else{
+                checkResult.innerHTML = "숫자로 된 11자리(- 포함)가 아닙니다."
+                checkResult.style.color = "red";
+            }
+        }
+
+    }
+</script>
 </html>

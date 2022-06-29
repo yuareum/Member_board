@@ -17,7 +17,7 @@ public class CommentEntity extends BaseEntity{
     @Column(length = 20, nullable = false)
     private String commentWriter;
 
-    @Column(nullable = false)
+    @Column(length = 200, nullable = false)
     private String commentContents;
 
     // 회원 댓글 관계

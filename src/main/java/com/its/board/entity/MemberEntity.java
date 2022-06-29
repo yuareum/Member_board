@@ -14,7 +14,7 @@ import java.util.List;
 public class MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(length = 20, unique = true, nullable = false)

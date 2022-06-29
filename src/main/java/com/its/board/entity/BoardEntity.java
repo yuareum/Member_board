@@ -27,6 +27,7 @@ public class BoardEntity extends BaseEntity {
     private String boardContents;
 
     @Column
+    @ColumnDefault("0")
     private int boardHits;
 
     @Column
@@ -34,7 +35,7 @@ public class BoardEntity extends BaseEntity {
 
     // 회원 게시글 관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private MemberEntity memberEntity;
 
     // 게시글 댓글 관계

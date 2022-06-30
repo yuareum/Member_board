@@ -16,6 +16,7 @@
     </style>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
     <div class="container">
         <h2>게시글 상세 조회</h2>
         <div th:if="${session.loginEmail}">

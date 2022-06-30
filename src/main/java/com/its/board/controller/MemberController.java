@@ -98,4 +98,11 @@ public class MemberController {
         memberService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/myPage/{id}")
+    public String myPage(@PathVariable("id") Long id, Model model){
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("member",memberDTO);
+        return "memberPages/myPage";
+    }
 }

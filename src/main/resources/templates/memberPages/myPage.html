@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"  xmlns:th="http://www.thymeleaf.org">
+    <title>MyPage</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<div class="container">
+    <h2>My Page</h2>
+    <h3 style="margin-top: 20px">Profile</h3><br>
+    <img th:src="@{|/upload/${member.memberProfileName}|}" width="250" height="200" alt=""><br>
+    이메일 <input class="form-control" type="text" th:value="${member.memberEmail}" readonly>
+    비밀번호 <input class="form-control" th:value="${member.memberPassword}" readonly>
+    이름 <input class="form-control" th:value="${member.memberName}" readonly>
+    전화번호 <input class="form-control" th:value="${member.memberMobile}" readonly>
+</div>
+</body>
+</html>

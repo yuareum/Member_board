@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-@Table(name="m_board_table")
+@Table(name="board_table")
 public class BoardEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

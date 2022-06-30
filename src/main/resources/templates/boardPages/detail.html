@@ -1,21 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>게시글 상세 조회</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <style>
+        .container{
+            margin-top: 20px;
+        }
+        .btn{
+            float: right;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>게시글 상세 조회</h2>
+            <div th:if="${session.loginEmail.toString()} == ${board.boardWriter}">
+                <button class="btn btn-outline-primary" th:onclick="req(1)">게시글 수정</button>
+            </div>
+            <div th:if="${session.loginEmail.toString()} == ${board.boardWriter} or ${session.loginEmail.toString().equals('admin')}">
+                <button class="btn btn-outline-danger" th:onclick="req(2)">게시글 삭제</button>
+            </div>
         <table class="table">
             <tr>
                 <td>글 번호</td>
+                <td colspan="3" th:text="${board.id}"></td>
+            </tr>
+            <tr>
                 <td>작성자</td>
-                <td>내용</td>
+                <td th:text="${board.boardWriter}"></td>
+                <td>조회수</td>
+                <td th:text="${board.boardHits}"></td>
+            </tr>
+            <tr>
                 <td>작성시간</td>
-                <td>글</td>
+                <td th:text="*{#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>수정시간</td>
+                <td th:text="*{#temporals.format(board.updatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <td colspan="3" th:text="${board.boardContents}">
+                </td>
+                <td>
+                    <img th:src="@{|/upload/${board.boardFileName}|}" width="300" height="200" alt="">
+                </td>
             </tr>
         </table>
     </div>
 </body>
+<script th:inline="javascript">
+    const req = (num) => {
+        const id = [[${board.id}]];
+        if(num == 1){
+            location.href = "/board/update/" + id;
+        }
+        else if(num == 2){
+            const deleteCheck = confirm("게시글을 삭제하겠습니까?");
+            if(deleteCheck){
+                location.href  = "/board/delete/" + id;
+            }
+        }
+    }
+
+</script>
 </html>

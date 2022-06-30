@@ -27,7 +27,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     private final MemberRepository memberRepository;
-
+    @Transactional
     public List<BoardDTO> findAll() {
         List<BoardEntity> boardEntityList = boardRepository.findAll();
         List<BoardDTO> boardDTOList = new ArrayList<>();
@@ -100,5 +100,9 @@ public class BoardService {
         else {
             return null;
         }
+    }
+
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
     }
 }

@@ -57,6 +57,39 @@
             </tr>
         </table>
     </div>
+<div class="container">
+    댓글 입력
+    <div id="comment-write" class="input-group mb-3">
+        <div class="form-floating">
+            <input type="text"  id="commentWriter" class="form-control"  th:value="${session.loginEmail}" placeholder="작성자" readonly>
+            <label for="commentWriter">작성자</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" onclick="commentWriterCheck()" id="commentContents" class="form-control" placeholder="내용">
+            <label for="commentContents">내용</label>
+        </div>
+        <button id="comment-write-btn" style="width: 100px; height: 60px" class="btn btn-primary">댓글작성</button>
+    </div>
+    <div id="comment-list">
+        <p style="margin-top: 20px">작성된 댓글</p>
+        <table class="table">
+            <tr>
+                <td>댓글번호</td>
+                <td>작성자</td>
+                <td>내용</td>
+                <td>작성시간</td>
+            </tr>
+            <c:forEach items="${commentList}" var="comment">
+                <tr>
+                    <td>${comment.id}</td>
+                    <td>${comment.commentWriter}</td>
+                    <td>${comment.commentContents}</td>
+                    <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${comment.commentCreatedDate}"></fmt:formatDate></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</div>
 </body>
 <script th:inline="javascript">
     const req = (num) => {

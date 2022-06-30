@@ -2,7 +2,9 @@ package com.its.board.controller;
 
 import com.its.board.common.PagingConst;
 import com.its.board.dto.BoardDTO;
+import com.its.board.dto.CommentDTO;
 import com.its.board.service.BoardService;
+import com.its.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,12 +14,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
+
+    private final CommentService commentService;
 
     @GetMapping("/save-form")
     public String saveForm(){
@@ -45,6 +50,8 @@ public class BoardController {
     public String detail(@PathVariable("id") Long id, Model model){
         BoardDTO findDTO = boardService.detail(id);
         model.addAttribute("board", findDTO);
+        List<CommentDTO> commentDTOList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDTOList);
         return "boardPages/detail";
 
     }
@@ -66,5 +73,11 @@ public class BoardController {
     public String update(@ModelAttribute BoardDTO boardDTO){
         boardService.update(boardDTO);
         return "redirect:/board/" + boardDTO.getId();
+    }
+    @GetMapping("/search")
+    public String search(@RequestParam("q") String q, Model model, @PageableDefault(page = 1) Pageable pageable){
+        List<BoardDTO> searchList = boardService.search(q);
+        model.addAttribute("searchList", searchList);
+        return "boardPages/search";
     }
 }

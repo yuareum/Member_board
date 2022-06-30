@@ -2,6 +2,7 @@ package com.its.board.service;
 
 import com.its.board.common.PagingConst;
 import com.its.board.dto.BoardDTO;
+import com.its.board.dto.CommentDTO;
 import com.its.board.entity.BoardEntity;
 import com.its.board.entity.MemberEntity;
 import com.its.board.repository.BoardRepository;
@@ -86,6 +87,7 @@ public class BoardService {
         boardRepository.boardHits(id);
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
         if(optionalBoardEntity.isPresent()){
+
             return BoardDTO.toBoardDTO(optionalBoardEntity.get());
         }
         else {
@@ -110,5 +112,14 @@ public class BoardService {
         BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO);
         Long id = boardRepository.save(boardEntity).getId();
         return id;
+    }
+
+    public List<BoardDTO> search(String q) {
+        List<BoardEntity> boardEntityList = boardRepository.findByBoardTitleContainingOrBoardContentsContaining(q, q);
+        List<BoardDTO> boardDTOList = new ArrayList<>();
+        for(BoardEntity boardEntity: boardEntityList){
+            boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
+        }
+        return boardDTOList;
     }
 }

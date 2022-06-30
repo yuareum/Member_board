@@ -18,16 +18,22 @@
 <body>
     <div class="container">
         <h2>게시글 상세 조회</h2>
+        <div th:if="${session.loginEmail}">
             <div th:if="${session.loginEmail.toString()} == ${board.boardWriter}">
-                <button class="btn btn-outline-primary" th:onclick="req(1)">게시글 수정</button>
+                    <button class="btn btn-outline-primary" th:onclick="req(1)">게시글 수정</button>
             </div>
             <div th:if="${session.loginEmail.toString()} == ${board.boardWriter} or ${session.loginEmail.toString().equals('admin')}">
                 <button class="btn btn-outline-danger" th:onclick="req(2)">게시글 삭제</button>
             </div>
+        </div>
         <table class="table">
             <tr>
                 <td>글 번호</td>
                 <td colspan="3" th:text="${board.id}"></td>
+            </tr>
+            <tr>
+                <td>글 제목</td>
+                <td colspan="3" th:text="${board.boardTitle}"></td>
             </tr>
             <tr>
                 <td>작성자</td>

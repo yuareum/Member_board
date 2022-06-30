@@ -69,7 +69,7 @@ public class MemberController {
         MemberDTO memberDTO = memberService.findByMemberEmail((String) session.getAttribute("loginEmail"));
         if("admin".equals(memberDTO.getMemberEmail())) {
             model.addAttribute("member", memberDTO);
-            return "/memberPages/admin";
+            return "memberPages/admin";
         }
         else{
             return "redirect:/";
@@ -102,7 +102,20 @@ public class MemberController {
     @GetMapping("/myPage/{id}")
     public String myPage(@PathVariable("id") Long id, Model model){
         MemberDTO memberDTO = memberService.findById(id);
-        model.addAttribute("member",memberDTO);
+        model.addAttribute("member", memberDTO);
         return "memberPages/myPage";
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable("id") Long id, Model model){
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("updateMember", memberDTO);
+        return "memberPages/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute MemberDTO memberDTO){
+        memberService.update(memberDTO);
+        return "redirect:/member/myPage/" + memberDTO.getId();
     }
 }

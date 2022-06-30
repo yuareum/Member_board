@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"  xmlns:th="http://www.thymeleaf.org">
+    <title>회원 정보 수정</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
+<style>
+    .container{
+        margin-top: 20px;
+    }
+</style>
 <body>
 <th:block th:replace="commonPages/header :: header"></th:block>
+    <div class="container">
+        <h2>회원 정보 수정</h2>
+        <form action="/member/update" method="post" name="updateForm">
+            <input type="hidden" class="form-control" name="id" th:value="${updateMember.id}">
+            이메일 <input type="text" class="form-control" name="memberEmail" th:value="${updateMember.memberEmail}" readonly>
+            비밀번호 <input type="password" class="form-control" id="password" name="memberPassword">
+            이름 <input type="text" class="form-control" name="memberName" th:value="${updateMember.memberName}" readonly>
+            전화번호 <input type="text" class="form-control" name="memberMobile" th:value="${updateMember.memberMobile}">
+            프로필 <input type="text" class="form-control" name="memberProfileName" th:value="${updateMember.memberProfileName}" readonly><br>
+            <input type="button" class="btn btn-outline-primary"  th:onclick="memberUpdate()" value="회원 정보 수정">
+        </form>
+    </div>
 </body>
+<script th:inline="javascript">
+    const memberUpdate = () => {
+        const password = document.getElementById("password").value;
+        const pw = [[${updateMember.memberPassword}]];
+        if(password == pw){
+            updateForm.submit();
+        }
+        else{
+            alert("비밀번호가 일치하지 않습니다.");
+        }
+    }
+</script>
 </html>

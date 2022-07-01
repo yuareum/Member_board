@@ -75,7 +75,7 @@ public class BoardController {
         return "redirect:/board/" + boardDTO.getId();
     }
     @GetMapping("/search")
-    public String search(@RequestParam("q") String q, Model model, @PageableDefault(page = 1) Pageable pageable){
+    public String search(@RequestParam("q") String q, Model model){
         List<BoardDTO> searchList = boardService.search(q);
         model.addAttribute("searchList", searchList);
         return "boardPages/search";

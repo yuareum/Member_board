@@ -76,7 +76,7 @@ public class MemberController {
         }
     }
     @GetMapping
-    public String paging(@PageableDefault(page = 1) Pageable pageable, Model model) {
+    public String findAll(@PageableDefault(page = 1) Pageable pageable, Model model) {
         Page<MemberDTO> memberList = memberService.paging(pageable);
         model.addAttribute("memberList", memberList);
         int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;

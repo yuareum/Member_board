@@ -6,6 +6,8 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
     <style>
         .container{
             margin-top: 20px;
@@ -65,7 +67,7 @@
             <label for="commentWriter">작성자</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" onclick="commentWriterCheck()" id="commentContents" class="form-control" placeholder="내용">
+            <input type="text" id="commentContents"  onclick="commentWriterCheck()" class="form-control" placeholder="내용">
             <label for="commentContents">내용</label>
         </div>
         <button id="comment-write-btn" style="width: 100px; height: 60px" class="btn btn-primary">댓글작성</button>
@@ -79,14 +81,12 @@
                 <td>내용</td>
                 <td>작성시간</td>
             </tr>
-            <c:forEach items="${commentList}" var="comment">
-                <tr>
-                    <td>${comment.id}</td>
-                    <td>${comment.commentWriter}</td>
-                    <td>${comment.commentContents}</td>
-                    <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${comment.commentCreatedDate}"></fmt:formatDate></td>
-                </tr>
-            </c:forEach>
+            <tr th:each="comment: ${commentList}">
+                <td th:text="${comment.id}"></td>
+                <td th:text="${comment.commentWriter}"></td>
+                <td th:text="${comment.commentContents}"></td>
+                <td th:text="*{#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
         </table>
     </div>
 </div>
@@ -104,6 +104,52 @@
             }
         }
     }
+    const commentWriterCheck = () => {
+        const commentWriter = document.getElementById("commentWriter").value;
+        const commentContents = document.getElementById("commentContents");
+        if(commentWriter == ""){
+            commentContents.readOnly = true;
+        }
+    }
 
+    $("#comment-write-btn").click(function (){
+        const commentWriter = document.getElementById("commentWriter").value;
+        const commentContents = $("#commentContents").val();
+        const boardId = [[${board.id}]];
+        if(commentContents != ""){
+            $.ajax({
+                type: "post",
+                url: "/comment/save",
+                data: {"commentWriter": commentWriter, "commentContents": commentContents, "boardId": boardId},
+                dataType: "json",
+                success: function (result){
+                    console.log(result);
+                    let output = "<table class='table'>";
+                    output += "<tr><th>댓글번호</th>";
+                    output += "<th>작성자</th>";
+                    output += "<th>내용</th>";
+                    output += "<th>작성시간</th></tr>";
+                    for(let i in result){
+                        output += "<tr>";
+                        output += "<td>"+result[i].id+"</td>";
+                        output += "<td>"+result[i].commentWriter+"</td>";
+                        output += "<td>"+result[i].commentContents+"</td>";
+                        output += "<td>"+moment(result[i].createdTime).format("YYYY-MM-DD HH:mm:ss")+ "</td>";
+                        output += "</tr>";
+                    }
+                    output += "</table>";
+                    document.getElementById('comment-list').innerHTML = output;
+                    document.getElementById('commentContents').value='';
+                },
+                error: function (){
+                    alert("오류");
+                }
+
+            });
+        }
+        else{
+            alert("댓글을 작성해주세요.");
+        }
+    });
 </script>
 </html>

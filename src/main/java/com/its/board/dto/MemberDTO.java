@@ -24,6 +24,12 @@ public class MemberDTO {
         this.memberName = memberName;
         this.memberMobile = memberMobile;
     }
+    public MemberDTO(String memberEmail, String memberPassword, String memberName, String memberMobile) {
+        this.memberEmail = memberEmail;
+        this.memberPassword = memberPassword;
+        this.memberName = memberName;
+        this.memberMobile = memberMobile;
+    }
 
     public static MemberDTO toMemberDTO(MemberEntity memberEntity) {
         MemberDTO memberDTO = new MemberDTO();

@@ -50,8 +50,8 @@ public class MemberController {
         if (loginResult != null) {
             session.setAttribute("loginId", loginResult.getId());
             session.setAttribute("loginEmail", loginResult.getMemberEmail());
-            session.setAttribute("loginPassword", loginResult.getMemberPassword());
             return "redirect:/board";
+
         }
         else {
             return "memberPages/login";

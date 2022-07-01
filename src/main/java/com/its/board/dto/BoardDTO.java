@@ -30,6 +30,12 @@ public class BoardDTO {
         this.createdTime = createdTime;
     }
 
+    public BoardDTO(String boardTitle, String boardWriter, String boardContents) {
+        this.boardTitle = boardTitle;
+        this.boardWriter = boardWriter;
+        this.boardContents = boardContents;
+    }
+
     public static BoardDTO toBoardDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(boardEntity.getId());

@@ -4,27 +4,40 @@
     <meta charset="UTF-8">
     <title>헤더Title</title>
     <div id="header">
-        <!-- 로그인 O
-                1. 관리자(admin)라면 관리자모드 링크 보임.
-                2. 관리자가 아니라면 로그아웃 링크 보임.
-             로그인 X
-             - 회원가입 링크 보임.
-            -->
-        <div th:if="${session.loginEmail}">
-            <div th:if="${session.loginEmail.toString().equals('admin')}">
-                <a href="/member/admin">관리자페이지</a>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <nav class="navbar navbar-expand-lg bg-info">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#" style="font-style: oblique; margin-left: 50px;">Member Board</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 50px;">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/board">글목록</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.loginEmail}">
+                            <a th:if="${session.loginEmail.toString().equals('admin')}" class="nav-link" href="/member/admin">관리자페이지</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.loginEmail}">
+                            <a class="nav-link" th:href="@{|/member/myPage/${session.loginId}|}">MyPage</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.loginEmail}">
+                            <a class="nav-link" href="/member/logout">로그아웃</a>
+                        </li>
+                        <li class="nav-item" th:unless="${session.loginEmail}">
+                            <a class="nav-link" href="/member/login-form">로그인</a>
+                        </li>
+                        <li class="nav-item" th:unless="${session.loginEmail}">
+                            <a class="nav-link" href="/member/save-form">회원가입</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div>
-                <a href="/member/logout">로그아웃</a>
-                <a th:href="@{|/member/myPage/${session.loginId}|}">MyPage</a>
-            </div>
-        </div>
-        <div th:unless="${session.loginEmail}">
-            <a href="/member/login-form">로그인</a>
-            <a href="/member/save-form">회원가입</a>
-        </div>
-        <a href="/">Home</a>
-        <a href="/board">글목록</a>
+        </nav>
     </div>
 </th:block>
 </html>

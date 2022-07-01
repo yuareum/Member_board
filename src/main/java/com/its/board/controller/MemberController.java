@@ -65,7 +65,7 @@ public class MemberController {
     }
 
     @GetMapping("/admin")
-    public String admin(Model model,HttpSession session){
+    public String admin(Model model, HttpSession session){
         MemberDTO memberDTO = memberService.findByMemberEmail((String) session.getAttribute("loginEmail"));
         if("admin".equals(memberDTO.getMemberEmail())) {
             model.addAttribute("member", memberDTO);

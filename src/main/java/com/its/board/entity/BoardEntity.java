@@ -40,7 +40,7 @@ public class BoardEntity extends BaseEntity {
     private MemberEntity memberEntity;
 
     // 게시글 댓글 관계
-    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<CommentEntity> commentEntityList = new ArrayList<>();
 
     public static BoardEntity toSaveEntity(BoardDTO boardDTO, MemberEntity memberEntity) {

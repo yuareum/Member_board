@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/board")
@@ -75,9 +76,23 @@ public class BoardController {
         return "redirect:/board/" + boardDTO.getId();
     }
     @GetMapping("/search")
-    public String search(@RequestParam("q") String q, Model model){
-        List<BoardDTO> searchList = boardService.search(q);
-        model.addAttribute("searchList", searchList);
-        return "boardPages/search";
+    public String search(@RequestParam("searchType") String searchType, @RequestParam("q") String q, Model model, @PageableDefault(page = 1) Pageable pageable){
+        if(Objects.equals(searchType, "boardTitle")){
+            Page<BoardDTO> searchList = boardService.searchTitle(q,pageable);
+            model.addAttribute("searchList", searchList);
+            int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;
+            int endPage = ((startPage + PagingConst.BLOCK_LIMIT - 1) < searchList.getTotalPages()) ? startPage + PagingConst.BLOCK_LIMIT - 1 : searchList.getTotalPages();
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+        }
+        else if(Objects.equals(searchType, "boardWriter")){
+            List<BoardDTO> searchList = boardService.searchContents(q);
+            model.addAttribute("searchList", searchList);
+        }
+        else if(Objects.equals(searchType, "boardTitleOrBoardWriter")){
+            List<BoardDTO> searchList = boardService.search(q);
+            model.addAttribute("searchList", searchList);
+        }
+        return "boardPages/searchList";
     }
 }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<th:block th:replace="commonPages/header :: header"></th:block>
+    <div class="container">
+        <h2>회원 탈퇴</h2>
+        <form action="/member/withdrawal" method="post" name="withdrawal">
+            <table style="margin-top: 20px;">
+                <tr>
+                    <th>비밀번호 입력</th>
+                </tr>
+                <tr>
+                    <td><input type="password" id="memberPassword" class="form-control" placeholder="비밀번호"></td>
+                    <td><input type="button" class="btn btn-outline-danger" onclick="memberPasswordCheck()" value="회원탈퇴"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+<script th:inline="javascript">
+    const memberPasswordCheck = () => {
+        const memberPassword = document.getElementById("memberPassword").value;
+        if(memberPassword == [[${member.memberPassword}]]){
+            const check = confirm("회원 탈퇴 하시겠습니까?");
+            if(check){
+                withdrawal.submit();
+            }
+        }
+        else{
+            alert("비밀번호가 틀립니다.");
+        }
+    }
+</script>
+</html>

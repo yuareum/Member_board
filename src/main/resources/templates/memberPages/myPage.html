@@ -11,6 +11,7 @@
 <div class="container">
     <h2>My Page</h2>
     <button class="btn btn-outline-success" style="float: right;" th:onclick="'location.href=\''+ @{|/member/update/${member.id}|} + '\''">회원정보수정</button>
+    <button class="btn btn-outline-dark" style="float: right;" th:onclick="'location.href=\''+ @{|/member/withdrawal/${member.id}|} + '\''">회원탈퇴</button>
     <h3 style="margin-top: 20px">Profile</h3><br>
     <img th:src="@{|/upload/${member.memberProfileName}|}" width="250" height="200" alt=""><br>
     이메일 <input class="form-control" type="text" th:value="${member.memberEmail}" readonly>

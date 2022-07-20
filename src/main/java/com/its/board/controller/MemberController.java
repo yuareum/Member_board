@@ -120,7 +120,7 @@ public class MemberController {
     }
 
     @GetMapping("/withdrawal/{id}")
-    public String withdrawal(@PathVariable("id") Long id, Model model){
+    public String withdrawalForm(@PathVariable("id") Long id, Model model){
         MemberDTO memberDTO = memberService.findById(id);
         model.addAttribute("member", memberDTO);
         return "memberPages/withdrawal";

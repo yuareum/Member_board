@@ -82,7 +82,7 @@ public class BoardController {
             model.addAttribute("searchList", searchList);
         }
         else if(Objects.equals(searchType, "boardWriter")){
-            List<BoardDTO> searchList = boardService.searchContents(q);
+            List<BoardDTO> searchList = boardService.searchWriter(q);
             model.addAttribute("searchList", searchList);
         }
         else if(Objects.equals(searchType, "boardTitleOrBoardWriter")){

@@ -126,7 +126,7 @@ public class BoardService {
         return boardDTOList;
     }
 
-    public List<BoardDTO> searchContents(String q) {
+    public List<BoardDTO> searchWriter(String q) {
         List<BoardEntity> boardEntityList = boardRepository.findByBoardWriterContaining(q);
         List<BoardDTO> boardDTOList = new ArrayList<>();
         for(BoardEntity boardEntity: boardEntityList){

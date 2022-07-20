@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
@@ -162,14 +163,14 @@ public class BoardTest {
         }
     }
 
-    @Test
-    @Transactional
-    @Rollback(value = false)
-    @DisplayName("검색 테스트")
-    public void searchTest(){
-        List<BoardDTO> boardDTOList = boardService.search("t");
-        System.out.println("boardDTOList = " + boardDTOList);
-    }
+//    @Test
+//    @Transactional
+//    @Rollback(value = false)
+//    @DisplayName("검색 테스트")
+//    public void searchTest(){
+//        Page<BoardDTO> boardDTOList = boardService.search("t");
+//        System.out.println("boardDTOList = " + boardDTOList);
+//    }
 
     @Test
     @Transactional

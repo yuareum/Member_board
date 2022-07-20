@@ -27,7 +27,7 @@
     const memberPasswordCheck = () => {
         const memberPassword = document.getElementById("memberPassword").value;
         if(memberPassword == [[${member.memberPassword}]]){
-            const check = confirm("회원 탈퇴 하시겠습니까?");
+            const check = confirm("탈퇴 하시겠습니까?");
             if(check){
                 withdrawal.submit();
             }

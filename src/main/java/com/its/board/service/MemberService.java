@@ -59,8 +59,8 @@ public class MemberService {
         return memberDTOList;
     }
 
-    public String dupCheck(String memberId) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(memberId);
+    public String dupCheck(String memberEmail) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(memberEmail);
         if(optionalMemberEntity.isEmpty()){
             return "ok";
         }

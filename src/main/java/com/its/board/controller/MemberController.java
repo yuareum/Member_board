@@ -94,7 +94,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteAjax(@PathVariable("id") Long id){
+    public ResponseEntity delete(@PathVariable("id") Long id){
         memberService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

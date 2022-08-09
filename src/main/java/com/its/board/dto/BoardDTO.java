@@ -36,10 +36,12 @@ public class BoardDTO {
         this.boardContents = boardContents;
     }
 
-    public BoardDTO(Long id, String boardWriter, String boardTitle) {
+    public BoardDTO(Long id, String boardWriter, String boardTitle, LocalDateTime createdTime, int boardHits) {
         this.id = id;
         this.boardWriter = boardWriter;
         this.boardTitle = boardTitle;
+        this.createdTime = createdTime;
+        this.boardHits = boardHits;
     }
 
     public static BoardDTO toBoardDTO(BoardEntity boardEntity) {

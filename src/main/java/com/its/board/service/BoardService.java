@@ -116,13 +116,18 @@ public class BoardService {
         boardRepository.findAll(PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
         if (searchType.equals("boardTitle")){
             searchEntity = boardRepository.findByBoardTitleContainingIgnoreCase(q,PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
-        } else {
+        } else if(searchType.equals("boardWriter")) {
             searchEntity = boardRepository.findByBoardWriterContainingIgnoreCase(q,PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
+        }
+        else{
+            searchEntity = boardRepository.findByBoardTitleContainingOrBoardWriterContainingIgnoreCase(q,q,PageRequest.of(page,PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
         }
         Page<BoardDTO> boardList = searchEntity.map(
                 board -> new BoardDTO(board.getId(),
                         board.getBoardWriter(),
-                        board.getBoardTitle())
+                        board.getBoardTitle(),
+                        board.getCreatedTime(),
+                        board.getBoardHits())
         );
 
         return boardList;

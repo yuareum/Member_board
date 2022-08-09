@@ -83,6 +83,8 @@ public class BoardController {
         int endPage =((startPage + PagingConst.BLOCK_LIMIT-1)< searchList.getTotalPages())?startPage + PagingConst.BLOCK_LIMIT -1 : searchList.getTotalPages();
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("q", q);
 
         return "boardPages/searchList";
     }

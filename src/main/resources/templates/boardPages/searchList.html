@@ -47,5 +47,38 @@
             </tbody>
         </table>
     </div>
+    <div class="container">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <!--첫페이지 요청 링크-->
+                <a class="page-link" th:href="@{/board/search(page=1,searchType=${searchType},q=${q})}">
+                    <span>First</span>
+                </a>
+            </li>
+
+            <li th:class="${searchList.first} ? 'disabled'" class="page-item">
+                <a class="page-link" th:href="${searchList.first} ? '#' : @{/board/search(page=${searchList.number},searchType=${searchType},q=${q})}">
+                    <span><</span> <!-- < -->
+                </a>
+            </li>
+
+            <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                th:class="${page == searchList.number + 1} ? 'page-item active'" class="page-item">
+                <a class="page-link" th:text="${page}" th:href="@{/board/search(page=${page},searchType=${searchType},q=${q})}"></a>
+            </li>
+
+            <li th:class="${searchList.last} ? 'disabled'">
+                <a class="page-link" th:href="${searchList.last} ? '#' : @{/board/search(page=${searchList.number + 2},searchType=${searchType},q=${q})}">
+                    <span>&gt;</span>
+                </a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" th:href="@{/board/search(page=${searchList.totalPages},searchType=${searchType},q=${q})}">
+                    <span>Last</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>

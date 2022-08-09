@@ -77,18 +77,13 @@ public class BoardController {
     }
     @GetMapping("/search")
     public String search(@RequestParam("searchType") String searchType, @RequestParam("q") String q, Model model, @PageableDefault(page = 1) Pageable pageable){
-        if(Objects.equals(searchType, "boardTitle")){
-            List<BoardDTO> searchList = boardService.searchTitle(q);
-            model.addAttribute("searchList", searchList);
-        }
-        else if(Objects.equals(searchType, "boardWriter")){
-            List<BoardDTO> searchList = boardService.searchWriter(q);
-            model.addAttribute("searchList", searchList);
-        }
-        else if(Objects.equals(searchType, "boardTitleOrBoardWriter")){
-            List<BoardDTO> searchList = boardService.search(q);
-            model.addAttribute("searchList", searchList);
-        }
+        Page<BoardDTO> searchList = boardService.search(searchType, q, pageable);
+        model.addAttribute("searchList", searchList);
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;
+        int endPage =((startPage + PagingConst.BLOCK_LIMIT-1)< searchList.getTotalPages())?startPage + PagingConst.BLOCK_LIMIT -1 : searchList.getTotalPages();
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
         return "boardPages/searchList";
     }
 }

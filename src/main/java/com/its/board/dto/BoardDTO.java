@@ -36,6 +36,12 @@ public class BoardDTO {
         this.boardContents = boardContents;
     }
 
+    public BoardDTO(Long id, String boardWriter, String boardTitle) {
+        this.id = id;
+        this.boardWriter = boardWriter;
+        this.boardTitle = boardTitle;
+    }
+
     public static BoardDTO toBoardDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(boardEntity.getId());

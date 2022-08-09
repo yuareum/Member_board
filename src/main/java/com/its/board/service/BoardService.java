@@ -108,13 +108,25 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
-    public List<BoardDTO> search(String q) {
-        List<BoardEntity> boardEntityList = boardRepository.findByBoardTitleContainingOrBoardWriterContaining(q,q);
-        List<BoardDTO> boardDTOList = new ArrayList<>();
-        for(BoardEntity boardEntity: boardEntityList){
-            boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
+    @Transactional
+    public Page<BoardDTO> search(String searchType, String q, Pageable pageable) {
+        int page = pageable.getPageNumber();
+        page  = (page == 1) ? 0 : (page -1);
+        Page<BoardEntity> searchEntity = null;
+        boardRepository.findAll(PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
+        if (searchType.equals("boardTitle")){
+            searchEntity = boardRepository.findByBoardTitleContainingIgnoreCase(q,PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
+        } else {
+            searchEntity = boardRepository.findByBoardWriterContainingIgnoreCase(q,PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
         }
-        return boardDTOList;
+        Page<BoardDTO> boardList = searchEntity.map(
+                board -> new BoardDTO(board.getId(),
+                        board.getBoardWriter(),
+                        board.getBoardTitle())
+        );
+
+        return boardList;
+
     }
 
     public List<BoardDTO> searchTitle(String q) {
